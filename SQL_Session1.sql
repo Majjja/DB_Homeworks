@@ -14,72 +14,72 @@ drop table if exists [dbo].[AchievementType];
 
 create table [dbo].[Student]
 (
-	 [Id] [int] identity(1, 1) not null,
-	 [FirstName] [nvarchar](100) not null,
-	 [LastName] [nvarchar](100) not null,
-	 [DateOfBirth] [date] null,
-	 [EnrolledDate] [datetime] null,
-	 [Gender] [nchar] null,
-	 [NationalIDNumber] [nvarchar](50) null,
-	 [StudentCardNumber] [nvarchar](50),
-	 constraint [PK_Student] primary key clustered ([Id] asc)
+	 [ID] [int] identity(1, 1) not null,
+	 [FirstName] [nvarchar](50) not null,
+	 [LastName] [nvarchar](50) not null,
+	 [DateOfBirth] [date] not null,
+	 [EnrolledDate] [datetime] not null,
+	 [Gender] [nchar](1) not null,
+	 [NationalIDNumber] [nvarchar](50) not null,
+	 [StudentCardNumber] [nvarchar](50) not null,
+	 constraint [PK_Student] primary key clustered ([ID] asc)
 )
 GO
 
 create table [dbo].[Teacher]
 (
-	[Id] [smallint] identity(1, 1) not null,
-	[FirstName] [nvarchar](100) not null,
-	[LastName] [nvarchar](100) not null,
-	[DateOfBirth] [date] null,
-	[AcademicRank] [nvarchar](50) null,
-	[HireDate] [date] null,
-	constraint [PK_Teacher] primary key clustered ([Id] asc)
+	[ID] [int] identity(1, 1) not null,
+	[FirstName] [nvarchar](50) not null,
+	[LastName] [nvarchar](50) not null,
+	[DateOfBirth] [date] not null,
+	[AcademicRank] [nvarchar](50) not null,
+	[HireDate] [date] not null,
+	constraint [PK_Teacher] primary key clustered ([ID] asc)
 )
 GO
 
 create table [dbo].[GradeDetails]
 (
-	[Id] [int] identity(1, 1) not null,
-	[GradeID] [int] null,
-	[AchievementTypeID] [int] null,
-	[AchievementPoints] [smallint] null,
-	[AchievementMaxPoints] [smallint] null,
-	[AchievementDate] [date] null,
-	constraint [PK_GradeDetails] primary key clustered ([Id] asc)
+	[ID] [int] identity(1, 1) not null,
+	[GradeID] [int] not null,
+	[AchievementTypeID] [tinyint] not null,
+	[AchievementPoints] [tinyint] not null,
+	[AchievementMaxPoints] [tinyint] not null,
+	[AchievementDate] [datetime] not null,
+	constraint [PK_GradeDetails] primary key clustered ([ID] asc)
 )
 GO
 
 create table [dbo].[Course]
 (
-	[Id] [smallint] identity(1, 1) not null,
-	[Name] [nvarchar](100) not null,
-	[Credit] [int] null,
-	[AcademicYear] [nvarchar](10) null,
-	[Semester] [tinyint] null,
-	constraint [PK_Course] primary key clustered ([Id] asc)
+	[ID] [smallint] identity(1, 1) not null,
+	[Name] [nvarchar](50) not null,
+	[Credit] [tinyint] not null,
+	[AcademicYear] [tinyint] not null,
+	[Semester] [tinyint] not null,
+	constraint [PK_Course] primary key clustered ([ID] asc)
 )
 GO
 
 create table [dbo].[Grade]
 (
-	[Id] [int] identity(1, 1) not null,
-	[StudentId] [int] null,
-	[CourseId] [smallint] null,
-	[TeacherId] [smallint] null,
-	[Grade] [tinyint] null,
-	[Comment] [nvarchar](100) not null,
-	[CreatedDate] [datetime] null,
-	constraint [PK_Grade] primary key clustered ([Id] asc)
+	[ID] [int] identity(1, 1) not null,
+	[StudentID] [int] not null,
+	[CourseID] [smallint] not null,
+	[TeacherID] [int] not null,
+	[Grade] [tinyint] not null,
+	[Comment] [nvarchar](100) null,
+	[CreatedDate] [datetime] not null,
+	constraint [PK_Grade] primary key clustered ([ID] asc)
 )
 GO
 
 create table [dbo].[AchievementType]
 (
-	[Id] [int] identity(1, 1) not null,
+	[ID] [tinyint] identity(1, 1) not null,
 	[Name] [nvarchar](50) not null,
 	[Description] [nvarchar](100) null,
-	[ParticipationRate] [decimal](15, 2),
-	constraint [PK_AchievementType] primary key clustered ([Id] asc)
+	[ParticipationRate] [tinyint] not null,
+	constraint [PK_AchievementType] primary key clustered ([ID] asc)
 )
 GO
