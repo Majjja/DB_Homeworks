@@ -36,12 +36,12 @@ where [LastName] like 'J%' and [EnrolledDate] between '1998.01.01' and '1998.01.
 select *
 from [dbo].[Student]
 where [FirstName] = 'Antonio'
-order by [LastName] asc
+order by [LastName]
 
 --List all Students ordered by FirstName
 select *
 from [dbo].[Student]
-order by [FirstName] asc
+order by [FirstName]
 
 --Find all Male students ordered by EnrolledDate, starting from the last enrolled
 select *
@@ -103,3 +103,30 @@ alter table [dbo].[Grade] with check
 add constraint [FK_Grade_CourseID]
 foreign key ([CourseID])
 references [dbo].[Course] ([ID])
+
+-- HOMEWORK REQUIREMENT 6
+--List all possible combinations of Courses names and AchievementType names that can be passed by student
+select c.[Name] as [Course Name], [at].[Name] as [AchievementType Name]
+from [dbo].[Course] as c
+cross join [dbo].[AchievementType] as [at]
+order by c.[Name]
+
+--List all Teachers that has any exam Grade
+select t.*
+from [dbo].[Teacher] as t
+inner join [dbo].[Grade] as g
+on t.ID = g.TeacherID
+
+--List all Teachers without exam Grade
+select t.[FirstName] as Ime, t.LastName as Prezime, t.AcademicRank as [Akademska Titula]
+from [dbo].[Teacher] as t
+left join [dbo].[Grade] as g
+on t.ID = g.TeacherID
+where g.ID is null
+
+--List all Students without exam Grade (using Right Join)
+select s.*
+from [dbo].[Grade] as g
+right join [dbo].[Student] as s
+on s.ID = g.StudentID
+where g.ID is null
