@@ -47,12 +47,9 @@ begin
 	insert into dbo.GradeDetails(GradeID, AchievementTypeID,AchievementPoints, AchievementMaxPoints, AchievementDate)
 	select @GradeId, @AchievementTypeID, @AchievementPoints, @AchievementMaxPoints, @AchievementDate
 
-	select g.Grade, sum(gd.AchievementPoints/gd.AchievementMaxPoints * [at].ParticipationRate) as SumOfGradePoints
+	select sum(gd.AchievementPoints/gd.AchievementMaxPoints * [at].ParticipationRate) as SumOfGradePoints
 	from dbo.GradeDetails as gd
 	inner join dbo.AchievementType as [at] on [at].ID = gd.AchievementTypeID
-	inner join dbo.Grade as g on g.ID = gd.GradeID
-	where g.ID = @GradeId
-	group by g.Grade
 end
 go
 
