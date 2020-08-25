@@ -14,6 +14,10 @@ begin
 	begin try
 		insert into dbo.GradeDetails(GradeID, AchievementTypeID,AchievementPoints, AchievementMaxPoints, AchievementDate)
 		select @GradeId, @AchievementTypeID, @AchievementPoints, @AchievementMaxPoints, @AchievementDate
+
+		select sum(gd.AchievementPoints/gd.AchievementMaxPoints * [at].ParticipationRate) as SumOfGradePoints
+		from dbo.GradeDetails as gd
+		inner join dbo.AchievementType as [at] on [at].ID = gd.AchievementTypeID
 	end try
 	begin catch
 		select
@@ -22,13 +26,9 @@ begin
 			ERROR_STATE() as ErrorState,
 			ERROR_PROCEDURE() as ErrorProcedure,
 			ERROR_LINE() as ErrorLine,
-			ERROR_MESSAGE() as ErrorMsg
+			ERROR_MESSAGE() as ErrorMessage
 		return
 	end catch
-
-	select sum(gd.AchievementPoints/gd.AchievementMaxPoints * [at].ParticipationRate) as SumOfGradePoints
-	from dbo.GradeDetails as gd
-	inner join dbo.AchievementType as [at] on [at].ID = gd.AchievementTypeID
 end
 go
 

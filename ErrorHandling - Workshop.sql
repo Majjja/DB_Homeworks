@@ -19,6 +19,20 @@ begin
 	begin try
 		insert into dbo.OrderDetails(OrderId, ProductId, Quantity, Price)
 		select @OrderId, @ProductId, @Quantity, @Price
+
+		select @TotalPrice = sum(Quantity * Price)
+		from dbo.OrderDetails
+		where OrderId = @OrderId
+
+		update dbo.[Order]
+		set TotalPrice = @TotalPrice
+		where Id = @OrderId
+
+		select p.[Name], sum(od.Price * od.Quantity)
+		from dbo.OrderDetails as od
+		inner join dbo.Product as p on p.Id = od.ProductId
+		where od.OrderId = @OrderId
+		group by p.[Name]
 	end try
 	begin catch
 		select
@@ -30,21 +44,6 @@ begin
 			ERROR_MESSAGE() as ErrorMsg
 		return
 	end catch
-
-	select @TotalPrice = sum(Quantity * Price)
-	from dbo.OrderDetails
-	where OrderId = @OrderId
-
-	update dbo.[Order]
-	set TotalPrice = @TotalPrice
-	where Id = @OrderId
-
-	select p.[Name], sum(od.Price * od.Quantity)
-	from dbo.OrderDetails as od
-	inner join dbo.Product as p on p.Id = od.ProductId
-	where od.OrderId = @OrderId
-	group by p.[Name]
-
 end
 go
 
